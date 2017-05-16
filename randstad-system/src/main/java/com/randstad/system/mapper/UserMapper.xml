@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.randstad.system.mapper.UserMapper" >
+	<resultMap id="UserBaseMap" type="com.randstad.system.entity.User" >
+		<id column="ID" property="id" jdbcType="BIGINT" />
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+		<result column="USER_PASSWORD" property="userPassword" jdbcType="VARCHAR" />
+		<result column="USER_FULL_NAME" property="userFullName" jdbcType="VARCHAR" />
+		<result column="GENDER" property="gender" jdbcType="VARCHAR" />
+		<result column="EMAIL" property="email" jdbcType="VARCHAR" />
+		<result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+		<result column="TELEPHONE" property="telephone" jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="NUMERIC" />
+		<result column="USER_STATUS" property="userStatus" jdbcType="INTEGER" />
+		<result column="ORDER_NO" property="orderNo" jdbcType="INTEGER" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="CREATE_BY" property="createBy" jdbcType="BIGINT" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_BY" property="updateBy" jdbcType="BIGINT" />
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap id="UserMap" type="com.randstad.system.entity.User" extends="UserBaseMap" >
+		<!-- to add extended property -->
+	</resultMap>
+	
+	<!-- 新增 -->
+	<insert id="insert" parameterType="com.randstad.system.entity.User">
+		<selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+			SELECT SCOPE_IDENTITY()
+		</selectKey>
+		insert into T_USER ( USER_NAME, USER_PASSWORD, USER_FULL_NAME, 
+			GENDER, EMAIL, MOBILE, 
+			TELEPHONE, ORG_ID, USER_STATUS, 
+			ORDER_NO, REMARK, CREATE_BY, 
+			CREATE_DATE, UPDATE_BY, UPDATE_DATE )
+		values ( #{userName, jdbcType=VARCHAR}, #{userPassword, jdbcType=VARCHAR}, #{userFullName, jdbcType=VARCHAR}, 
+			#{gender, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR}, #{mobile, jdbcType=VARCHAR}, 
+			#{telephone, jdbcType=VARCHAR}, #{orgId, jdbcType=NUMERIC}, #{userStatus, jdbcType=INTEGER}, 
+			#{orderNo, jdbcType=INTEGER}, #{remark, jdbcType=VARCHAR}, #{createBy, jdbcType=BIGINT}, 
+			#{createDate, jdbcType=TIMESTAMP}, #{updateBy, jdbcType=BIGINT}, #{updateDate, jdbcType=TIMESTAMP} )
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.randstad.system.entity.User" >
+		update T_USER
+		set USER_NAME = #{userName, jdbcType=VARCHAR}, 
+			USER_PASSWORD = #{userPassword, jdbcType=VARCHAR}, 
+			USER_FULL_NAME = #{userFullName, jdbcType=VARCHAR}, 
+			GENDER = #{gender, jdbcType=VARCHAR}, 
+			EMAIL = #{email, jdbcType=VARCHAR}, 
+			MOBILE = #{mobile, jdbcType=VARCHAR}, 
+			TELEPHONE = #{telephone, jdbcType=VARCHAR}, 
+			ORG_ID = #{orgId, jdbcType=NUMERIC}, 
+			USER_STATUS = #{userStatus, jdbcType=INTEGER}, 
+			ORDER_NO = #{orderNo, jdbcType=INTEGER}, 
+			REMARK = #{remark, jdbcType=VARCHAR}, 
+			CREATE_BY = #{createBy, jdbcType=BIGINT}, 
+			CREATE_DATE = #{createDate, jdbcType=TIMESTAMP}, 
+			UPDATE_BY = #{updateBy, jdbcType=BIGINT}, 
+			UPDATE_DATE = #{updateDate, jdbcType=TIMESTAMP}
+		where ID = #{id, jdbcType=BIGINT}
+	</update>
+	
+	<!-- 按主键删除 -->
+	<delete id="deleteById" parameterType="java.lang.Long" >
+		delete from T_USER
+		where ID = #{value, jdbcType=BIGINT}
+	</delete>
+
+	<sql id="Base_Column_List" >
+		T_USER.ID, T_USER.USER_NAME, T_USER.USER_PASSWORD, T_USER.USER_FULL_NAME, T_USER.GENDER, 
+		T_USER.EMAIL, T_USER.MOBILE, T_USER.TELEPHONE, T_USER.ORG_ID, T_USER.USER_STATUS, 
+		T_USER.ORDER_NO, T_USER.REMARK, T_USER.CREATE_BY, T_USER.CREATE_DATE, T_USER.UPDATE_BY, 
+		T_USER.UPDATE_DATE
+	</sql>
+	
+	<sql id="Column_List">
+		<include refid="Base_Column_List" />
+	</sql>
+	
+	<!-- 按主键查询 -->
+	<select id="findById" resultMap="UserMap" parameterType="java.lang.Long" >
+		select 
+		<include refid="Column_List" />
+		from T_USER 
+		where T_USER.ID = #{value, jdbcType=BIGINT}
+	</select>
+	
+	<sql id="Where_By_Params" >
+		<trim prefix="WHERE" prefixOverrides="AND|OR" >
+			<if test="id != null" >
+				AND T_USER.ID = #{id, jdbcType=BIGINT}
+			</if>
+			<if test="@Ognl@isNotEmpty(userName)" >
+				AND T_USER.USER_NAME = #{userName, jdbcType=VARCHAR}
+			</if>
+			<if test="userPassword != null" >
+				AND T_USER.USER_PASSWORD = #{userPassword, jdbcType=VARCHAR}
+			</if>
+			<if test="@Ognl@isNotEmpty(userFullName)" >
+				AND lower(T_USER.USER_FULL_NAME) like #{userFullName, jdbcType=VARCHAR}
+			</if>
+			<if test="gender != null" >
+				AND T_USER.GENDER = #{gender, jdbcType=VARCHAR}
+			</if>
+			<if test="@Ognl@isNotEmpty(email)" >
+				AND T_USER.EMAIL = #{email, jdbcType=VARCHAR}
+			</if>
+			<if test="@Ognl@isNotEmpty(mobile)" >
+				AND T_USER.MOBILE = #{mobile, jdbcType=VARCHAR}
+			</if>
+			<if test="telephone != null" >
+				AND T_USER.TELEPHONE = #{telephone, jdbcType=VARCHAR}
+			</if>
+			<if test="orgId != null" >
+				AND T_USER.ORG_ID = #{orgId, jdbcType=NUMERIC}
+			</if>
+			<if test="userStatus != null" >
+				AND T_USER.USER_STATUS = #{userStatus, jdbcType=INTEGER}
+			</if>
+			<if test="orderNo != null" >
+				AND T_USER.ORDER_NO = #{orderNo, jdbcType=INTEGER}
+			</if>
+			<if test="remark != null" >
+				AND T_USER.REMARK = #{remark, jdbcType=VARCHAR}
+			</if>
+			<if test="createBy != null" >
+				AND T_USER.CREATE_BY = #{createBy, jdbcType=BIGINT}
+			</if>
+			<if test="createDate != null" >
+				AND T_USER.CREATE_DATE = #{createDate, jdbcType=TIMESTAMP}
+			</if>
+			<if test="updateBy != null" >
+				AND T_USER.UPDATE_BY = #{updateBy, jdbcType=BIGINT}
+			</if>
+			<if test="updateDate != null" >
+				AND T_USER.UPDATE_DATE = #{updateDate, jdbcType=TIMESTAMP}
+			</if>
+			
+			<include refid="Where_Clause" />
+		</trim>
+	</sql>
+	
+	<sql id="Where_Clause">
+		
+	</sql>
+	
+	<!-- 按参数统计 -->
+	<select id="countByParams" resultType="java.lang.Integer" parameterType="Map" >
+		select count(1) 
+		from T_USER
+		<include refid="Where_By_Params" />
+	</select>
+	
+	<!-- 按参数查询 -->
+	<select id="findByParams" resultMap="UserMap" parameterType="Map" >
+		select 
+		<include refid="Column_List" />
+		from T_USER
+		<include refid="Where_By_Params" />
+		<choose>
+			<when test="orderByClause != null">
+				order by ${orderByClause}
+			</when>
+			<otherwise>
+				order by ID
+			</otherwise>
+		</choose>
+	</select>
+
+  <!-- 根据登录名查询用户 --> 
+  <select id="selectByUserName" resultMap="UserMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+	left join t_org on t_user.org_id = t_org.id
+    where USER_NAME = #{userName,jdbcType=VARCHAR}
+  </select>
+</mapper>

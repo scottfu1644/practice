@@ -1,0 +1,44 @@
+package com.randstad.system.service;
+
+import java.util.List;
+import java.util.Map;
+import com.randstad.common.page.Page;
+import com.randstad.common.page.PageContext;
+import com.randstad.system.entity.User;
+
+/**
+ * 
+ * Function: 用户信息服务. <br>
+ * 
+ * @author suzu
+ */
+public interface UserService {
+  /**
+   * 按主键查找
+   **/
+  User findUserById(Long userId);
+
+  /**
+   * 按参数分页查找
+   **/
+  Page<User> findUserPage(PageContext pageContext);
+
+  /**
+   * 按参数查找对象
+   **/
+  List<User> findUserByParams(Map<String, Object> params);
+
+  /**
+   * 保存对象，新增或修改由主键是否为空确定
+   **/
+  void saveUser(User user);
+
+  /**
+   * 按主键删除
+   **/
+  int deleteUserById(Long userId);
+
+  User getUserByLoginName(String username);
+
+  User login(String username, String pswd);
+}

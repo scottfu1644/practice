@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+	<!-- spring dispatcher 专用，SpringMVC需要 -->
+
+	<!-- don't handle the static resource -->
+	<!-- <mvc:default-servlet-handler />将静态资源的处理经由Spring MVC框架交回Web应用服务器处理。是将DispatcherServlet的请求映射配置为"/"的前提 -->
+	<!-- <mvc:default-servlet-handler /> -->
+	<!-- <mvc:resources />更进一步，由Spring MVC框架自己处理静态资源，并添加一些有用的附加值功能。 -->
+
+	<!-- if you use annotation you must configure following setting -->
+	<!-- 激活@Controller注解模式 -->
+	<mvc:annotation-driven />
+
+	<!-- 静态资源文件，不会被Spring MVC拦截 -->
+	<mvc:resources location="/resources/" mapping="/resources/**" />
+	<mvc:resources location="/process-editor/" mapping="/process-editor/**" />
+	<mvc:resources location="/static/" mapping="/static/**" />
+
+	<!-- scan the package and the sub package -->
+	<!-- 设置对类的注解进行扫描，创建Bean及自动依赖注入 -->
+	<context:component-scan base-package="com.randstad">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+
+	<!-- 避免IE在ajax请求时，返回json出现下载 -->
+	<bean id="jacksonMessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 配置tiles模板 -->
+	<bean id="tilesConfigurer"
+		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/tiles-defs/tiles.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 配置tiles视图解析器 -->
+	<!-- 这里配置了两个视图解析bean，当Tiles配置中没有匹配的规则时，使用SpringMVC默认的匹配规则。 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="order" value="1" />
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.tiles3.TilesView"></property>
+	</bean>
+
+	<!-- JSP视图解析器 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/view/" />
+		<property name="suffix" value=".jsp" />
+		<property name="order" value="1" />
+	</bean>
+
+	<!-- 启用注解式事务 必须要这里启用 -->
+	<!-- <tx:annotation-driven transaction-manager="transactionManager" /> -->
+</beans>

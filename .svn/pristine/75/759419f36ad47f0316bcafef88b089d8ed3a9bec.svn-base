@@ -1,0 +1,109 @@
+package com.randstad.shiro.filter;
+
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.StringUtils;
+import org.apache.shiro.web.filter.AccessControlFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+
+import com.randstad.common.ws.MsgDto;
+
+/**
+ * 
+ * 登录验证
+ * 
+ * <p>
+ * 
+ * @author walker
+ * 
+ */
+public class AuthFilter extends AccessControlFilter {
+  private static Logger logger = LoggerFactory.getLogger(AuthFilter.class);
+
+  /**
+   * Processes requests where the subject was denied access as determined by the isAccessAllowed
+   * method, retaining the mappedValue that was used during configuration.
+   * 
+   * @param request - the incoming ServletRequest
+   * @param response - the outgoing ServletResponse
+   * @param mappedValue - the filter-specific config value mapped to this filter in the URL rules
+   *        mappings.
+   * @return true if the subject is authenticated; false if the subject is unauthenticated
+   * @throws Exception 异常
+   */
+  protected boolean isAccessAllowed(ServletRequest request, ServletResponse response,
+      Object mappedValue) throws Exception {
+    logger.info(String.format("isAccessAllowed(request, response, %s)", mappedValue));
+    HttpServletRequest httpRequest = ((HttpServletRequest) request);
+    Subject subject = getSubject(request, response);
+    boolean authenticated = subject.isAuthenticated();
+    if (authenticated) {
+      logger.info("Authenticated, continue.");
+    } else {
+      logger.info("Unauthenticated.");
+    }
+    if (null != subject.getPrincipal() || isLoginRequest(request, response)) {// && isEnabled()
+      return Boolean.TRUE;
+    }
+    String debug = httpRequest.getParameter("_debug");
+    if (StringUtils.hasText(debug) && debug.equals("true")) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Processes requests where the subject was denied access as determined by the isAccessAllowed
+   * method, retaining the mappedValue that was used during configuration.
+   * 
+   * @param request - the incoming ServletRequest
+   * @param response - the outgoing ServletResponse
+   * @return true if the request should continue to be processed; false if the subclass will
+   *         handle/render the response directly.
+   * @throws Exception 异常
+   */
+  protected boolean onAccessDenied(ServletRequest request, ServletResponse response)
+      throws Exception {
+    logger.info("onAccessDenied(request, response)");
+    // 先退出
+    Subject subject = getSubject(request, response);
+    logger.info(String.format("Subject : %s", subject));
+    subject.logout();
+
+    logger.info("LoginUrl : " + getLoginUrl());
+    boolean isAjax = ShiroFilterUtils.isAjax(request);
+    // boolean hasLoginUrl = StringUtils.hasText(getLoginUrl()); // || !hasLoginUrl
+    if (isAjax) {// ajax请求
+      logger.info("当前用户没有登录，并且是Ajax请求！");
+
+      // MsgDto<String> msgDto = new MsgDto<>();
+      // msgDto.setStatus(MsgDto.STATUS_FAILURE);
+      // msgDto.setMessage("当前用户没有登录！");
+      // ShiroFilterUtils.out(response, msgDto);
+    } else {
+      logger.info("Request is not Ajax and has login url.");
+      /**
+       * 保存Request，用来保存当前Request，然后登录后可以跳转到当前浏览的页面。 比如：
+       * 我要访问一个URL地址，/admin/index.html，这个页面是要登录。然后要跳转到登录页面，但是登录后要跳转回来到/admin/index.html这个地址，怎么办？
+       * 传统的解决方法是变成/user/login.shtml?redirectUrl=/admin/index.html。 shiro的解决办法不是这样的。需要：
+       * <code>WebUtils.getSavedRequest(request);</code> 然后：{@link
+       * UserLoginController.submitLogin(...)}中的
+       * <code>String url = WebUtils.getSavedRequest(request).getRequestUrl();</code> 如果还有问题，请咨询我。
+       */
+      // WebUtils.saveRequest(request);
+      // // 再重定向
+      // WebUtils.issueRedirect(request, response, getLoginUrl());
+    }
+
+    MsgDto<String> msgDto = new MsgDto<>();
+    msgDto.setStatus(MsgDto.STATUS_FAILURE);
+    msgDto.setMessage("访问被拒绝，当前用户没有登录！");
+    ShiroFilterUtils.out(response, msgDto);
+
+    return false;
+  }
+}

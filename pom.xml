@@ -1,0 +1,1002 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.randstad</groupId>
+	<artifactId>randstad</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>randstad-core</module>
+		<module>randstad-mybatis</module>
+		<module>randstad-redis</module>
+		<module>randstad-system</module>
+		<module>randstad-shiro</module>
+		<module>randstad-web</module>
+		<module>randstad-activiti</module>
+	</modules>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jdk.version>1.7</jdk.version>
+		<junit.version>4.12</junit.version>
+
+		<checkstyle.config.location>config/checkstyle.xml</checkstyle.config.location>
+
+		<servlet.version>3.1.0</servlet.version>
+		<servlet-jsp.version>2.3.1</servlet-jsp.version>
+		<taglibs.version>1.1.2</taglibs.version>
+
+		<mail.version>1.4.7</mail.version>
+
+		<log4j.version>1.2.17</log4j.version>
+		<slf4j.version>1.7.12</slf4j.version>
+		<logback.version>1.2.2</logback.version>
+
+		<commons-lang3.version>3.1</commons-lang3.version>
+		<commons-logging.version>1.1.3</commons-logging.version>
+		<commons-beanutils.version>1.8.3</commons-beanutils.version>
+		<commons-collections.version>3.2.1</commons-collections.version>
+		<commons-codec.version>1.10</commons-codec.version>
+		<commons-compress.version>1.12</commons-compress.version>
+		<commons-io.version>2.4</commons-io.version>
+		<commons-net.version>3.3</commons-net.version>
+
+		<poi.version>3.14</poi.version>
+		<jxl.version>2.6.12</jxl.version>
+
+		<dom4j.version>1.6.1</dom4j.version>
+
+		<quartz.version>2.2.1</quartz.version>
+
+		<shiro.version>1.2.6</shiro.version>
+
+		<jedis.version>2.8.2</jedis.version>
+
+		<activiti.version>5.22.0</activiti.version>
+
+		<xwork.version>2.2.1</xwork.version>
+		<struts.version>2.3.28.1</struts.version>
+
+		<mybatis.version>3.4.1</mybatis.version>
+		<!-- 对应mybatis3.4 -->
+		<mybatis-spring.version>1.3.1</mybatis-spring.version>
+
+		<!-- <mybatis.version>3.2.8</mybatis.version> -->
+		<!-- 对应mybatis.3.2 -->
+		<!-- <mybatis-spring.version>1.2.3</mybatis-spring.version> -->
+
+		<spring.version>4.0.9.RELEASE</spring.version>
+		<!-- <spring.version>4.1.9.RELEASE</spring.version> <spring.version>4.2.9.RELEASE</spring.version> 
+			<spring.version>4.3.6.RELEASE</spring.version> -->
+		<spring-session.version>1.2.0.RELEASE</spring-session.version>
+		<!-- need spring 4.0.9 -->
+		<!-- <spring-data-redis.version>1.8.1.RELEASE</spring-data-redis.version> -->
+		<!-- need spring 4.0.9 -->
+		<spring-data-redis.version>1.5.2.RELEASE</spring-data-redis.version>
+
+		<aspectj.version>1.6.12</aspectj.version>
+
+		<druid.version>1.0.29</druid.version>
+
+		<jtds.version>1.3.1</jtds.version>
+
+		<mysql.version>6.0.6</mysql.version>
+
+		<rs.version>2.0.1</rs.version>
+
+		<jettison.version>1.3.8</jettison.version>
+		<jackson.version>2.8.6</jackson.version>
+	</properties>
+
+	<!--使用私服nexus作为jar包仓库，配置只下载发布版本，不下载快照版本 -->
+	<!-- <repositories> <repository> <id>nexus</id> <name>Nexus</name> <url>http://10.122.127.16:8081/nexus/content/groups/public/</url> 
+		<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>false</enabled> 
+		</snapshots> </repository> </repositories> -->
+
+	<!--使用私服nexus作为maven插件仓库 -->
+	<!-- <pluginRepositories> <pluginRepository> <id>nexus</id> <name>Nexus</name> 
+		<url>http://10.122.127.16:8081/nexus/content/groups/public/</url> <releases> 
+		<enabled>true</enabled> </releases> <snapshots> <enabled>false</enabled> 
+		</snapshots> </pluginRepository> </pluginRepositories> -->
+	<!--使用nexus私服，上传私有插件的发布版本和快照版本 -->
+	<!-- <distributionManagement> <repository> <id>nexus-releases</id> <name>Nexus 
+		Releases Repository</name> <url>http://10.122.127.16:8081/nexus/content/repositories/releases/</url> 
+		</repository> <snapshotRepository> <id>nexus-snapshots</id> <name>Nexus Snapshots 
+		Repository</name> <url>http://10.122.127.16:8081/nexus/content/repositories/snapshots/</url> 
+		</snapshotRepository> </distributionManagement> -->
+
+	<!-- 所有工程都需要添加的依赖包 -->
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<!-- <scope>test</scope> -->
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+		</dependency>
+
+
+		<!-- Log4j -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+
+		<!-- SLF4J -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+		<!-- Logback -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-access</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+
+		<!-- Commons -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+		</dependency>
+		<!-- http://mvnrepository.com/artifact/org.apache.commons/commons-compress -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-compress</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-net/commons-net -->
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+		</dependency>
+
+		<!-- SpringFramework -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<!-- <type>pom</type> -->
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/net.sourceforge.jtds/jtds -->
+		<dependency>
+			<groupId>net.sourceforge.jtds</groupId>
+			<artifactId>jtds</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.12</version>
+				<!-- <scope>test</scope> -->
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+			<dependency>
+				<groupId>javax.mail</groupId>
+				<artifactId>mail</artifactId>
+				<version>${mail.version}</version>
+			</dependency>
+
+			<!-- javax.servlet -->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${servlet.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api -->
+			<dependency>
+				<groupId>javax.servlet.jsp</groupId>
+				<artifactId>javax.servlet.jsp-api</artifactId>
+				<version>${servlet-jsp.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/taglibs/standard -->
+			<dependency>
+				<groupId>taglibs</groupId>
+				<artifactId>standard</artifactId>
+				<version>${taglibs.version}</version>
+			</dependency>
+
+			<!-- Apache commons -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons-lang3.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>${commons-logging.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
+			<dependency>
+				<groupId>commons-beanutils</groupId>
+				<artifactId>commons-beanutils</artifactId>
+				<version>${commons-beanutils.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-collections</groupId>
+				<artifactId>commons-collections</artifactId>
+				<version>${commons-collections.version}</version>
+			</dependency>
+			<!-- http://mvnrepository.com/artifact/org.apache.commons/commons-compress -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-compress</artifactId>
+				<version>${commons-compress.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${commons-io.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/commons-net/commons-net -->
+			<dependency>
+				<groupId>commons-net</groupId>
+				<artifactId>commons-net</artifactId>
+				<version>${commons-net.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>${commons-codec.version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi</artifactId>
+				<version>${poi.version}</version>
+			</dependency>
+
+			<!-- SLF4J -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
+				<!-- <scope>compile</scope> -->
+			</dependency>
+
+			<!-- Log4j -->
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
+
+			<!-- Quartz -->
+			<dependency>
+				<groupId>org.quartz-scheduler</groupId>
+				<artifactId>quartz</artifactId>
+				<version>${quartz.version}</version>
+				<!--<type>pom</type> -->
+			</dependency>
+
+			<dependency>
+				<groupId>dom4j</groupId>
+				<artifactId>dom4j</artifactId>
+				<version>${dom4j.version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/org.codehaus.jettison/jettison -->
+			<dependency>
+				<groupId>org.codehaus.jettison</groupId>
+				<artifactId>jettison</artifactId>
+				<version>${jettison.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-annotations</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.jaxrs</groupId>
+				<artifactId>jackson-jaxrs-json-provider</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.jaxrs/jackson-jaxrs-xml-provider -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.jaxrs</groupId>
+				<artifactId>jackson-jaxrs-xml-provider</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+
+
+			<!-- Shiro -->
+			<!-- Required in all environments. Slf4j's slf4j-api jar and one of its 
+				binding jars is required. commons-beanutils is required only if using INI 
+				config. -->
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-core</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<!-- Enables support for web-based applications. -->
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-web</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<!-- Enables AspectJ support for Shiro AOP and Annotations. -->
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-aspectj</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<!-- Enables Jasig CAS support. -->
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-cas</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<!-- Enables Ehcache-based famework caching. -->
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-ehcache</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+
+			<!-- OSGi / Apache Karaf integration. -->
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-features</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<!-- Enables Google Guice integration. -->
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-guice</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<!-- Enables Quartz-based scheduling for Shiro native session validation. -->
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-quartz</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<!-- Enables Spring Framework integration. -->
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-spring</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+			<dependency>
+				<groupId>redis.clients</groupId>
+				<artifactId>jedis</artifactId>
+				<version>${jedis.version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/org.activiti/activiti-engine -->
+			<dependency>
+				<groupId>org.activiti</groupId>
+				<artifactId>activiti-engine</artifactId>
+				<version>${activiti.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.activiti/activiti-spring -->
+			<dependency>
+				<groupId>org.activiti</groupId>
+				<artifactId>activiti-spring</artifactId>
+				<version>${activiti.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-model -->
+			<dependency>
+				<groupId>org.activiti</groupId>
+				<artifactId>activiti-bpmn-model</artifactId>
+				<version>${activiti.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-converter -->
+			<dependency>
+				<groupId>org.activiti</groupId>
+				<artifactId>activiti-bpmn-converter</artifactId>
+				<version>${activiti.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-layout -->
+			<dependency>
+				<groupId>org.activiti</groupId>
+				<artifactId>activiti-bpmn-layout</artifactId>
+				<version>${activiti.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.activiti/activiti-json-converter -->
+			<dependency>
+				<groupId>org.activiti</groupId>
+				<artifactId>activiti-json-converter</artifactId>
+				<version>${activiti.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.activiti/activiti-common-rest -->
+			<dependency>
+				<groupId>org.activiti</groupId>
+				<artifactId>activiti-common-rest</artifactId>
+				<version>${activiti.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.activiti/activiti-image-generator -->
+			<dependency>
+				<groupId>org.activiti</groupId>
+				<artifactId>activiti-image-generator</artifactId>
+				<version>${activiti.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.activiti/activiti-process-validation -->
+			<dependency>
+				<groupId>org.activiti</groupId>
+				<artifactId>activiti-process-validation</artifactId>
+				<version>${activiti.version}</version>
+			</dependency>
+
+			<!-- Struts -->
+			<!-- https://mvnrepository.com/artifact/org.apache.struts.xwork/xwork-core -->
+			<dependency>
+				<groupId>org.apache.struts.xwork</groupId>
+				<artifactId>xwork-core</artifactId>
+				<version>${xwork.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.struts</groupId>
+				<artifactId>struts2-core</artifactId>
+				<version>${struts.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.struts</groupId>
+				<artifactId>struts2-spring-plugin</artifactId>
+				<version>${struts.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.struts</groupId>
+				<artifactId>struts2-json-plugin</artifactId>
+				<version>${struts.version}</version>
+			</dependency>
+			<!-- <dependency> <groupId>org.apache.struts</groupId> <artifactId>struts2-core</artifactId> 
+				<version>2.5</version> </dependency> <dependency> <groupId>org.apache.struts</groupId> 
+				<artifactId>struts2-convention-plugin</artifactId> <version>${struts.version}</version> 
+				</dependency> -->
+
+			<!-- JDBC -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>${druid.version}</version>
+			</dependency>
+
+			<!-- c3p0 -->
+			<!-- <dependency> <groupId>c3p0</groupId> <artifactId>c3p0</artifactId> 
+				<version>0.9.1.2</version> <scope>compile</scope> </dependency> -->
+
+			<dependency>
+				<groupId>org.postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>${postgresql.version}</version>
+				<!-- <version>9.4-1201-jdbc41</version> -->
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/net.sourceforge.jtds/jtds -->
+			<dependency>
+				<groupId>net.sourceforge.jtds</groupId>
+				<artifactId>jtds</artifactId>
+				<version>${jtds.version}</version>
+			</dependency>
+
+			<!-- mysql -->
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.jsqlparser</groupId>
+				<artifactId>jsqlparser</artifactId>
+				<version>0.9.5</version>
+			</dependency>
+
+			<!-- MyBatis -->
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis</artifactId>
+				<version>${mybatis.version}</version>
+				<!-- pom依赖，自动引入依赖包但不包含自身；默认为jar，包含自身并引入依赖包 -->
+				<!-- <type>pom</type> -->
+			</dependency>
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis-spring</artifactId>
+				<version>${mybatis-spring.version}</version>
+			</dependency>
+			<!-- <dependency> <groupId>org.mybatis</groupId> <artifactId>mybatis</artifactId> 
+				<version>3.4.0</version> </dependency> <dependency> <groupId>com.github.pagehelper</groupId> 
+				<artifactId>pagehelper</artifactId> <version>4.1.3</version> </dependency> 
+				<dependency> <groupId>com.github.miemiedev</groupId> <artifactId>mybatis-paginator</artifactId> 
+				<version>1.2.17</version> </dependency> -->
+
+			<!-- SpringFramework -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+				<!-- <type>pom</type> -->
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>2.6.1</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger-ui</artifactId>
+				<version>2.6.1</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-core</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<!-- <artifactId>spring-core</artifactId> <artifactId>spring-beans</artifactId> 
+				<artifactId>spring-aop</artifactId> <artifactId>spring-web</artifactId> <artifactId>spring-webmvc</artifactId> 
+				<artifactId>spring-jdbc</artifactId> <artifactId>spring-tx</artifactId> -->
+
+			<dependency>
+				<groupId>org.springframework.session</groupId>
+				<artifactId>spring-session</artifactId>
+				<version>${spring-session.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-redis</artifactId>
+				<version>${spring-data-redis.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjweaver</artifactId>
+				<version>${aspectj.version}</version>
+			</dependency>
+
+			<!-- SLF4J -->
+			<!-- <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-api</artifactId> 
+				<version>${sl4j.version}</version> <scope>compile</scope> </dependency> -->
+
+			<!-- https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
+			<dependency>
+				<groupId>javax.ws.rs</groupId>
+				<artifactId>javax.ws.rs-api</artifactId>
+				<version>${rs.version}</version>
+			</dependency>
+
+			<!-- CXF -->
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-frontend-jaxws</artifactId>
+				<version>${cxf-rt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-transports-http</artifactId>
+				<version>${cxf-rt.version}</version>
+			</dependency>
+			<!-- http://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-frontend-jaxrs -->
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+				<version>${cxf-rt.version}</version>
+			</dependency>
+			<!-- http://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-rs-extension-providers -->
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-rs-extension-providers</artifactId>
+				<version>${cxf-rt.version}</version>
+			</dependency>
+
+			<!-- Wink -->
+			<dependency>
+				<groupId>org.apache.wink</groupId>
+				<artifactId>wink-server</artifactId>
+				<version>${wink.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.wink</groupId>
+				<artifactId>wink-common</artifactId>
+				<version>${wink.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.wink</groupId>
+				<artifactId>wink-client</artifactId>
+				<version>${wink.version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/net.sourceforge.jexcelapi/jxl -->
+			<dependency>
+				<groupId>net.sourceforge.jexcelapi</groupId>
+				<artifactId>jxl</artifactId>
+				<version>${jxl.version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/com.lowagie/itext -->
+			<dependency>
+				<groupId>com.lowagie</groupId>
+				<artifactId>itext</artifactId>
+				<version>${itext.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/com.lowagie/itext-rtf -->
+			<dependency>
+				<groupId>com.lowagie</groupId>
+				<artifactId>itext-rtf</artifactId>
+				<version>${itext.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<finalName>randstad</finalName>
+		<!-- 将maven项目中的xml等非java文件打入jar包中 -->
+		<resources>  
+            <resource>  
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                </includes>  
+            </resource>  
+            <resource>  
+                <directory>src/main/resources</directory>  
+                <includes>  
+                    <include>**/*</include>
+                </includes>  
+            </resource>
+        </resources>
+		<plugins>
+			<!-- we want JDK 1.6 source and binary compatiblility -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+				</configuration>
+			</plugin>
+
+			<!-- https://repo.maven.apache.org/maven2/com/googlecode/maven-java-formatter-plugin/maven-java-formatter-plugin -->
+			<plugin>
+				<groupId>com.googlecode.maven-java-formatter-plugin</groupId>
+				<artifactId>maven-java-formatter-plugin</artifactId>
+				<version>0.4</version>
+				<configuration>
+					<complianceLevel>${maven.compiler.source}</complianceLevel>
+					<sourceLevel>${maven.compiler.source}</sourceLevel>
+					<!-- <includes> -->
+					<!-- <include>**/*.java</include> -->
+					<!-- </includes> -->
+					<configFile>${basedir}/../config/eclipse-java-google-formatter.xml</configFile>
+					<compilerSource default-value="${maven.compiler.source}">${maven.compiler.source}</compilerSource>
+					<compilerTargetPlatform default-value="${maven.compiler.source}">${maven.compiler.source}</compilerTargetPlatform>
+					<compilerTarget default-value="${maven.compiler.target}">${maven.compiler.target}</compilerTarget>
+					<overrideConfigCompilerVersion>false</overrideConfigCompilerVersion>
+					<!-- <compilerSource>${maven.compiler.target}</compilerSource> -->
+					<!-- <compilerCompliance>${maven.compiler.target}</compilerCompliance> -->
+					<!-- <compilerTargetPlatform>${maven.compiler.target}</compilerTargetPlatform> -->
+					<lineEnding>AUTO</lineEnding>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<!-- <excludes> -->
+					<!-- <exclude>com/relativitas/maven/plugins/formatter/special/</exclude> -->
+					<!-- <exclude>**/*Test.java</exclude> -->
+					<!-- </excludes> -->
+				</configuration>
+				<executions>
+					<execution>
+						<id>format</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>format</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.17</version>
+				<configuration>
+					<!-- <configLocation>checkstyle.xml</configLocation> -->
+					<encoding>UTF-8</encoding>
+					<consoleOutput>true</consoleOutput>
+					<!-- failOnViolation为true会因校验失败造成工程编译失败 -->
+					<failOnViolation>true</failOnViolation>
+					<linkXRef>false</linkXRef>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.puppycrawl.tools</groupId>
+						<artifactId>checkstyle</artifactId>
+						<version>7.6.1</version>
+					</dependency>
+				</dependencies>
+				<!-- <goals> <goal>check</goal> </goals> -->
+				<executions>
+					<execution>
+						<id>checkstyle</id>
+						<phase>validate</phase>
+						<goals>
+							<!-- goal : check checkstyle checkstyle-aggregate -->
+							<!-- check不会生成report，checkstyle才行 -->
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- simian是一个支持代码相似度检查的工具，目前有maven插件，也有checkstyle的插件。它不仅可以检查java，甚至可以支持文本文件的检查 -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>simian-maven-plugin</artifactId>
+				<version>1.6.1</version>
+				<executions>
+					<execution>
+						<id>simian</id>
+						<phase>validate</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>jdepend-maven-plugin</artifactId> 
+				<version>2.0</version> <configuration> </configuration> <executions> <execution> 
+				<id>depend</id> <phase>validate</phase> <goals> <goal>generate</goal> </goals> 
+				</execution> </executions> </plugin> -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>3.0.4</version>
+				<configuration>
+					<threshold>High</threshold>
+					<!-- <effort>Max</effort> -->
+					<effort>default</effort>
+					<failOnError>true</failOnError>
+					<!-- <excludeFilterFile>${project.basedir}/etc/findbug/excludeFilter.xml</excludeFilterFile> -->
+					<xmlOutput>true</xmlOutput>
+					<findbugsXmlOutput>true</findbugsXmlOutput>
+					<findbugsXmlWithMessages>true</findbugsXmlWithMessages>
+					<findbugsXmlOutputDirectory>target/site</findbugsXmlOutputDirectory>
+					<formats>
+						<format>html</format>
+					</formats>
+				</configuration>
+				<executions>
+					<execution>
+						<id>findbugs</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> 
+				<version>2.10.4</version> <configuration> <show>private</show> <nohelp>true</nohelp> 
+				</configuration> <executions> <execution> <id>javadoc</id> <phase>compile</phase> 
+				<goals> <goal>javadoc</goal> </goals> </execution> </executions> </plugin> -->
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-checkstyle-plugin
+										</artifactId>
+										<versionRange>
+											[2.17,)
+										</versionRange>
+										<goals>
+											<goal>check</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											com.googlecode.maven-java-formatter-plugin
+										</groupId>
+										<artifactId>
+											maven-java-formatter-plugin
+										</artifactId>
+										<versionRange>
+											[0.4,)
+										</versionRange>
+										<goals>
+											<goal>format</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.codehaus.mojo
+										</groupId>
+										<artifactId>
+											findbugs-maven-plugin
+										</artifactId>
+										<versionRange>
+											[3.0.4,)
+										</versionRange>
+										<goals>
+											<goal>check</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<!-- <pluginExecution> <pluginExecutionFilter> <groupId> org.codehaus.mojo 
+									</groupId> <artifactId> jdepend-maven-plugin </artifactId> <versionRange> 
+									[2.0,) </versionRange> <goals> <goal>generate</goal> </goals> </pluginExecutionFilter> 
+									<action> <ignore></ignore> </action> </pluginExecution> -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-javadoc-plugin
+										</artifactId>
+										<versionRange>
+											[2.10.4,)
+										</versionRange>
+										<goals>
+											<goal>javadoc</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<!-- <pluginExecution> <pluginExecutionFilter> <groupId> org.codehaus.mojo 
+									</groupId> <artifactId> simian-maven-plugin </artifactId> <versionRange> 
+									[1.6.1,) </versionRange> <goals> <goal>check</goal> </goals> </pluginExecutionFilter> 
+									<action> <ignore></ignore> </action> </pluginExecution> -->
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.4</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jdepend-maven-plugin</artifactId>
+				<version>2.0</version>
+			</plugin>
+			<!-- maven-jxr-plugin不应放到build中去 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>2.5</version>
+				<!-- <reportSets> <reportSet> <id>aggregate</id> <reports> <report>aggregate</report> 
+					<report>test-aggregate</report> </reports> </reportSet> </reportSets> -->
+			</plugin>
+		</plugins>
+	</reporting>
+</project>

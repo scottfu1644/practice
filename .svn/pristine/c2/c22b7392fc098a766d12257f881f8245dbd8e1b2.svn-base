@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.randstad.mybatis.mapper.CommonMapper" >
+	<!-- 新增 -->
+	<insert id="insert" parameterType="String">
+		${value}
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="String" >
+		${value}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="String" >
+		${value}
+	</delete>
+	
+	<!-- 查询 -->
+	<select id="query" parameterType="String" resultType="Map" >
+		${value}
+	</select>
+	
+	<!-- 查询 -->
+	<select id="currentTimestamp" resultType="Date" >
+		<!-- SqlServer --> <!-- SELECT GETDATE() -->
+		<!-- Oracle --> <!-- select SYSDATE from dual -->
+		<!-- MySql --> <!-- select NOW() --> 
+		<!-- PostgreSql --> select now()
+	</select>
+</mapper>

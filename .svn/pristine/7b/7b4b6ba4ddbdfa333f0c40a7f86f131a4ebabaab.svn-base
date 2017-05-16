@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.randstad.system.mapper.ResourceMapper" >
+	<resultMap id="ResourceBaseMap" type="com.randstad.system.entity.Resource" >
+		<id column="ID" property="id" jdbcType="BIGINT" />
+		<result column="RES_CODE" property="resCode" jdbcType="VARCHAR" />
+		<result column="RES_TYPE" property="resType" jdbcType="VARCHAR" />
+		<result column="RES_NAME" property="resName" jdbcType="VARCHAR" />
+		<result column="RES_DESC" property="resDesc" jdbcType="VARCHAR" />
+		<result column="PARENT_ID" property="parentId" jdbcType="BIGINT" />
+		<result column="RES_STATUS" property="resStatus" jdbcType="INTEGER" />
+		<result column="RES_MODULE" property="resModule" jdbcType="VARCHAR" />
+		<result column="RES_URL" property="resUrl" jdbcType="VARCHAR" />
+		<result column="RES_ICON" property="resIcon" jdbcType="VARCHAR" />
+		<result column="ORDER_NO" property="orderNo" jdbcType="INTEGER" />
+		<result column="OPERATIONS" property="operations" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="ResourceMap" type="com.randstad.system.entity.Resource" extends="ResourceBaseMap" >
+		<!-- to add extended property -->
+	</resultMap>
+	
+	<resultMap id="AssignedFunctionMap" type="com.randstad.system.entity.Resource" extends="ResourceMap" >
+		<result column="ASSIGNED_OPERATIONS" property="asssignedOpts" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 新增 -->
+	<insert id="insert" parameterType="com.randstad.system.entity.Resource">
+		<selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+			SELECT SCOPE_IDENTITY()
+		</selectKey>
+		insert into T_RESOURCE ( RES_CODE, RES_TYPE, RES_NAME, 
+			RES_DESC, PARENT_ID, RES_STATUS, 
+			RES_MODULE, RES_URL, RES_ICON, 
+			ORDER_NO, OPERATIONS )
+		values ( #{resCode, jdbcType=VARCHAR}, #{resType, jdbcType=VARCHAR}, #{resName, jdbcType=VARCHAR}, 
+			#{resDesc, jdbcType=VARCHAR}, #{parentId, jdbcType=BIGINT}, #{resStatus, jdbcType=INTEGER}, 
+			#{resModule, jdbcType=VARCHAR}, #{resUrl, jdbcType=VARCHAR}, #{resIcon, jdbcType=VARCHAR}, 
+			#{orderNo, jdbcType=INTEGER}, #{operations, jdbcType=VARCHAR} )
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.randstad.system.entity.Resource" >
+		update T_RESOURCE
+		set RES_CODE = #{resCode, jdbcType=VARCHAR}, 
+			RES_TYPE = #{resType, jdbcType=VARCHAR}, 
+			RES_NAME = #{resName, jdbcType=VARCHAR}, 
+			RES_DESC = #{resDesc, jdbcType=VARCHAR}, 
+			PARENT_ID = #{parentId, jdbcType=BIGINT}, 
+			RES_STATUS = #{resStatus, jdbcType=INTEGER}, 
+			RES_MODULE = #{resModule, jdbcType=VARCHAR}, 
+			RES_URL = #{resUrl, jdbcType=VARCHAR}, 
+			RES_ICON = #{resIcon, jdbcType=VARCHAR}, 
+			ORDER_NO = #{orderNo, jdbcType=INTEGER}, 
+			OPERATIONS = #{operations, jdbcType=VARCHAR}
+		where ID = #{id, jdbcType=BIGINT}
+	</update>
+	
+	<!-- 按主键删除 -->
+	<delete id="deleteById" parameterType="java.lang.Long" >
+		delete from T_RESOURCE
+		where ID = #{value, jdbcType=BIGINT}
+	</delete>
+
+	<sql id="Base_Column_List" >
+		T_RESOURCE.ID, T_RESOURCE.RES_CODE, T_RESOURCE.RES_TYPE, T_RESOURCE.RES_NAME, T_RESOURCE.RES_DESC, 
+		T_RESOURCE.PARENT_ID, T_RESOURCE.RES_STATUS, T_RESOURCE.RES_MODULE, T_RESOURCE.RES_URL, T_RESOURCE.RES_ICON, 
+		T_RESOURCE.ORDER_NO, T_RESOURCE.OPERATIONS
+	</sql>
+	
+	<sql id="Column_List">
+		<include refid="Base_Column_List" />
+	</sql>
+	
+	<!-- 按主键查询 -->
+	<select id="findById" resultMap="ResourceMap" parameterType="java.lang.Long" >
+		select 
+		<include refid="Column_List" />
+		from T_RESOURCE 
+		where T_RESOURCE.ID = #{value, jdbcType=BIGINT}
+	</select>
+	
+	<sql id="Where_By_Params" >
+		<trim prefix="WHERE" prefixOverrides="AND|OR" >
+			<if test="id != null" >
+				AND T_RESOURCE.ID = #{id, jdbcType=BIGINT}
+			</if>
+			<if test="resCode != null" >
+				AND T_RESOURCE.RES_CODE = #{resCode, jdbcType=VARCHAR}
+			</if>
+			<if test="resType != null" >
+				AND T_RESOURCE.RES_TYPE = #{resType, jdbcType=VARCHAR}
+			</if>
+			<if test="resName != null" >
+				AND T_RESOURCE.RES_NAME = #{resName, jdbcType=VARCHAR}
+			</if>
+			<if test="resDesc != null" >
+				AND T_RESOURCE.RES_DESC = #{resDesc, jdbcType=VARCHAR}
+			</if>
+			<if test="parentId != null" >
+				AND T_RESOURCE.PARENT_ID = #{parentId, jdbcType=BIGINT}
+			</if>
+			<if test="resStatus != null" >
+				AND T_RESOURCE.RES_STATUS = #{resStatus, jdbcType=INTEGER}
+			</if>
+			<if test="resModule != null" >
+				AND T_RESOURCE.RES_MODULE = #{resModule, jdbcType=VARCHAR}
+			</if>
+			<if test="resUrl != null" >
+				AND T_RESOURCE.RES_URL = #{resUrl, jdbcType=VARCHAR}
+			</if>
+			<if test="resIcon != null" >
+				AND T_RESOURCE.RES_ICON = #{resIcon, jdbcType=VARCHAR}
+			</if>
+			<if test="orderNo != null" >
+				AND T_RESOURCE.ORDER_NO = #{orderNo, jdbcType=INTEGER}
+			</if>
+			<if test="operations != null" >
+				AND T_RESOURCE.OPERATIONS = #{operations, jdbcType=VARCHAR}
+			</if>
+			
+			<include refid="Where_Clause" />
+		</trim>
+	</sql>
+	
+	<sql id="Where_Clause">
+		
+	</sql>
+	
+	<!-- 按参数统计 -->
+	<select id="countByParams" resultType="java.lang.Integer" parameterType="Map" >
+		select count(1) 
+		from T_RESOURCE
+		<include refid="Where_By_Params" />
+	</select>
+	
+	<!-- 按参数查询 -->
+	<select id="findByParams" resultMap="ResourceMap" parameterType="Map" >
+		select 
+		<include refid="Column_List" />
+		from T_RESOURCE
+		<include refid="Where_By_Params" />
+		<choose>
+			<when test="orderByClause != null">
+				order by ${orderByClause}
+			</when>
+			<otherwise>
+				order by ID
+			</otherwise>
+		</choose>
+	</select>
+
+	<!-- 按角色查询 -->
+	<select id="findByRole" resultMap="AssignedFunctionMap" parameterType="java.lang.Long" >
+		select DISTINCT 
+		<include refid="Base_Column_List" />
+		,ROLE_RESOURCE.OPERATIONS as ASSIGNED_OPERATIONS
+		from T_RESOURCE
+			left join ROLE_RESOURCE on ROLE_RESOURCE.FUNC_ID = T_RESOURCE.FUNC_ID
+		where T_RESOURCE.FUNC_STATUS = 1 
+			and ROLE_RESOURCE.ROLE_ID = #{value, jdbcType=BIGINT}
+		order by PARENT_ID, ORDER_NO
+	</select>
+	
+	<!-- 按用户查询 -->
+	<select id="findByUser" resultMap="AssignedFunctionMap" parameterType="java.lang.Long" >
+		select DISTINCT 
+		<include refid="Base_Column_List" />
+		,ROLE_RESOURCE.OPERATIONS as ASSIGNED_OPERATIONS
+		from T_RESOURCE
+			left join ROLE_RESOURCE on ROLE_RESOURCE.FUNC_ID = T_RESOURCE.FUNC_ID
+			left join ROLE_USER on ROLE_FUNCTION.ROLE_ID = ROLE_USER.ROLE_ID
+		where T_RESOURCE.FUNC_STATUS = 1 
+			and ROLE_USER.USER_ID = #{value, jdbcType=BIGINT} 
+		order by PARENT_ID, ORDER_NO
+	</select>
+</mapper>

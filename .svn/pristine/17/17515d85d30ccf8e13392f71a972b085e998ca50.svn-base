@@ -1,0 +1,79 @@
+/**
+ * Copy right.
+ * 
+ * Project Name: core <br>
+ * Date: 2017年4月7日 上午10:31:33 <br/>
+ * Function: 用户管理API. <br>
+ * History : 1. [2017-04-07] Create by suzu
+ */
+package com.randstad.system.controllers;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+import javax.ws.rs.PathParam;
+
+// import javax.ws.rs.Consumes;
+// import javax.ws.rs.GET;
+// import javax.ws.rs.Path;
+// import javax.ws.rs.PathParam;
+// import javax.ws.rs.Produces;
+
+import com.randstad.common.ws.MsgDto;
+import com.randstad.system.entity.User;
+import com.randstad.system.service.UserService;
+
+/**
+ * Function: 用户管理API. <br>
+ * 
+ * @author suzu
+ */
+@RestController
+@RequestMapping("/user")
+public class UserController {
+  private static Logger logger = LoggerFactory.getLogger(UserController.class);
+
+  @Autowired
+  private UserService userService;
+
+  @RequestMapping(value = "/", method = RequestMethod.GET)
+  @ResponseBody
+  public MsgDto<List<User>> getAllUser() {
+    MsgDto<List<User>> msg = new MsgDto<>();
+    try {
+      List<User> users = userService.findUserByParams(null);
+      msg.setData(users);
+    } catch (Exception e) {
+      e.printStackTrace();
+      logger.error("=========getAllUser=========", e);
+      msg.setMessage(e.getMessage());
+      msg.setStatus(MsgDto.STATUS_FAILURE);
+    }
+    return msg;
+  }
+
+  @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+  @ResponseBody
+  public MsgDto<User> getUser(@PathParam("userId") Long userId) {
+    MsgDto<User> msg = new MsgDto<>();
+    try {
+      User user = userService.findUserById(userId);
+      msg.setData(user);
+    } catch (Exception e) {
+      e.printStackTrace();
+      logger.error("=========getUserById=========", e);
+      msg.setMessage(e.getMessage());
+      msg.setStatus(MsgDto.STATUS_FAILURE);
+    }
+    return msg;
+  }
+
+}

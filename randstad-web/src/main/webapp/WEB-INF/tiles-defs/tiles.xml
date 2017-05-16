@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE tiles-definitions PUBLIC  
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+ <!-- http://tiles.apache.org/framework/config-reference.html -->
+ <tiles-definitions>
+     <!-- tiles基础模板 -->
+     <definition name="defaultTemplate" template="/WEB-INF/view/common/template.jsp">
+         <put-attribute name="title" value="XX" />
+         <put-attribute name="header" value="/WEB-INF/view/common/header.jsp" />
+         <put-attribute name="navigation" value="/WEB-INF/view/common/navigation.jsp" />
+         <put-attribute name="body" value="" />
+         <put-attribute name="footer" value="/WEB-INF/view/common/footer.jsp" />
+     </definition>
+
+     <definition name="testTemplate" template="/WEB-INF/view/common/testTemplate.jsp">
+         <put-attribute name="body" value="" />
+     </definition>
+     <!-- 引用基础模板  视图名  -->
+     <definition name="index/*" extends="defaultTemplate" >
+     	<put-attribute name="body" value="/WEB-INF/view/index/index.jsp" />
+     </definition>
+
+      <!-- 引用基础模板  视图名  -->
+     <definition name="test/*" extends="testTemplate" >
+     	<put-attribute name="body" value="/WEB-INF/view/test/{1}.jsp" />
+     </definition>
+
+
+
+    <!-- Admin Login Base Template Definition -->
+    <definition name="login-definition" template="/WEB-INF/view/common/loginDefaultLayout.jsp">
+        <put-attribute name="title" value=""/>
+        <put-attribute name="body" value=""/>
+    </definition>
+    <!-- Admin LogIn Page -->
+    <definition name="login" extends="login-definition">
+        <put-attribute name="title" value="Login"/>
+        <put-attribute name="body" value="/WEB-INF/view/Login/login.jsp"/>
+    </definition>
+ </tiles-definitions>
